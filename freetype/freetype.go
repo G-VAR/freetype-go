@@ -13,8 +13,8 @@ import (
 	"image"
 	"image/draw"
 
-	"github.com/scpayson/freetype-go/freetype/raster"
-	"github.com/scpayson/freetype-go/freetype/truetype"
+	"github.com/vova616/freetype-go/freetype/raster"
+	"github.com/vova616/freetype-go/freetype/truetype"
 )
 
 // These constants determine the size of the glyph cache. The cache is keyed
@@ -206,6 +206,13 @@ func (c *Context) glyph(glyph truetype.Index, p raster.Point) (*image.Alpha, ima
 	}
 	c.cache[t] = cacheEntry{true, glyph, mask, offset}
 	return mask, offset.Add(image.Point{ix, iy}), nil
+}
+
+// glyph returns the glyph mask and integer-pixel offset to render the given
+// glyph at the given sub-pixel point. It is a cache for the rasterize method.
+// Unlike rasterize, p's co-ordinates do not have to be in the range [0, 1).
+func (c *Context) Glyph(glyph truetype.Index, p raster.Point) (*image.Alpha, image.Point, error) {
+	return c.glyph(glyph, p)
 }
 
 // DrawString draws s at p and returns p advanced by the text extent. The text
