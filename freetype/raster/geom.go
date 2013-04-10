@@ -26,6 +26,10 @@ func (x Fix32) String() string {
 	return fmt.Sprintf("%d:%03d", int32(x/256), int32(x%256))
 }
 
+func (x Fix32) Float() float32 {
+	return (float32(x/256) + float32((x%256)/256))
+}
+
 // String returns a human-readable representation of a 48.16 fixed point number.
 // For example, the number one-and-a-quarter becomes "1:16384".
 func (x Fix64) String() string {
@@ -34,6 +38,10 @@ func (x Fix64) String() string {
 		return fmt.Sprintf("-%d:%05d", int64(x/65536), int64(x%65536))
 	}
 	return fmt.Sprintf("%d:%05d", int64(x/65536), int64(x%65536))
+}
+
+func (x Fix64) Float() float64 {
+	return (float64(x/65536) + float64((x%65536)/65536))
 }
 
 // maxAbs returns the maximum of abs(a) and abs(b).
